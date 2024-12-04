@@ -1,0 +1,25 @@
+---
+import type { PortableTextBlock } from "sanity";
+import card from "./Card.astro";
+import content from "./Content.astro";
+
+const Components: { [s: string]: any } = {
+  card,
+  content,
+};
+
+interface Props {
+  content: PortableTextBlock[];
+}
+---
+
+<div class="blocks">
+  {
+    Astro.props.content.map((block) => {
+      const Component = Components[block._type];
+      return Component ? <Component {...block} /> : null;
+    })
+  }
+</div>
+
+<style></style>

@@ -1,0 +1,13 @@
+---
+import Blocks from "../components/blocks/index.astro";
+import Layout from "../layouts/Layout.astro";
+import { getPage } from "../utils/sanity";
+
+const page = await getPage("/");
+---
+
+<Layout title={page.title!}>
+  <section class="page">
+    <Blocks content={page.body} />
+  </section>
+</Layout>
