@@ -12,6 +12,5 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   output: "static",
   site: "https://trollhag.com",
-  base: "trollhag.com",
   integrations: [react(), tailwind()]
 });
