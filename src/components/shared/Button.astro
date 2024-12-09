@@ -1,0 +1,75 @@
+---
+export interface Props {}
+---
+
+<astro-pressable>
+  <slot />
+</astro-pressable>
+
+<script>
+  import gsap from "gsap";
+  class AstroPressable extends HTMLElement {
+    connectedCallback() {
+      const el = this.querySelector<HTMLElement>(":first-child");
+      if (!el) {
+        return;
+      }
+      let x = "";
+      let y = "";
+      let s = 0;
+      const tl = gsap.timeline({ repeat: 0 });
+      el.addEventListener("mousemove", (e) => {
+        const rect = el.getBoundingClientRect();
+        x = `${((e.clientX - rect.left) / rect.width) * 100}%`;
+        y = `${((e.clientY - rect.top) / rect.height) * 100}%`;
+        s = Math.max(rect.width, rect.height);
+      });
+      el.addEventListener("mousedown", () => {
+        tl.from(el, {
+          backgroundImage: "",
+        })
+          .to(el, {
+            duration: 0.1,
+            backgroundImage: `radial-gradient(circle at ${x} ${y}, rgba(0, 0, 0, 0.3) 0px, rgba(0, 0, 0, 0.3) 0px, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0) 100%)`,
+          })
+          .to(el, {
+            delay: 0.1,
+            duration: 1,
+            backgroundImage: `radial-gradient(circle at ${x} ${y}, rgba(0, 0, 0, 0.3) 0px, rgba(0, 0, 0, 0.3) ${s}px, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0) 100%)`,
+          })
+          .play();
+        // el.style.backgroundImage = ;
+      });
+      el.addEventListener("mouseup", () => {
+        tl.reverse();
+      });
+    }
+  }
+  customElements.define("astro-pressable", AstroPressable);
+</script>
+
+<style>
+  @keyframes animation {
+    from {
+      background: radial-gradient(
+        circle,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.3) 35%,
+        rgba(0, 0, 0, 0) 35%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    }
+    to {
+      background: radial-gradient(
+        circle,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.3) 100%,
+        rgba(0, 0, 0, 0) 100%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    }
+  }
+  .animate {
+    animation: animation 0.3s ease 0 1;
+  }
+</style>

@@ -20,6 +20,8 @@ import react from "@astrojs/react";
 // https://docs.astro.build/en/guides/server-side-rendering/#adding-an-adapter
 import vercel from "@astrojs/vercel/serverless";
 
+import tailwind from "@astrojs/tailwind";
+
 // https://astro.build/config
 export default defineConfig({
   // Hybrid+adapter is required to support embedded Sanity Studio
@@ -32,6 +34,6 @@ export default defineConfig({
     useCdn: false,
     // `false` if you want to ensure fresh data
     apiVersion: "2023-03-20" // Set to date of setup to use the latest API version
-  }), react() // Required for Sanity Studio
-  ]
+  }), // Required for Sanity Studio
+  react(), tailwind()]
 });

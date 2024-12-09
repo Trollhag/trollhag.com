@@ -1,13 +1,10 @@
 ---
-import Blocks from "../components/blocks/index.astro";
 import Layout from "../layouts/Layout.astro";
-import { getPage } from "../utils/sanity";
-
-const page = await getPage("/");
+import BusinessHero from "../components/blocks/BusinessHero.astro";
 ---
 
-<Layout title={page.title!}>
+<Layout title="Oscar Trollhag | Frilanskonsult inom Webbutveckling och Data/IT">
   <section class="page">
-    <Blocks content={page.body} />
+    <BusinessHero />
   </section>
 </Layout>
