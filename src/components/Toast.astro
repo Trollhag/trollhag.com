@@ -1,0 +1,61 @@
+---
+
+---
+
+<div
+  x-data="toasts"
+  @app:toast.window="append($event.detail)"
+  class="fixed bottom-4 left-1/2 -translate-x-1/2"
+>
+  <template x-for="(toast, id) in toasts">
+    <div
+      :id="`toast-${id}`"
+      x-show="toast.open"
+      class="px-4 py-2 mb-2 bg-slate-100 dark:bg-slate-900 shadow-lg rounded border-l-4 flex justify-center w-80"
+      :class="{ 'border-slate-900 dark:border-slate-100': toast.color === '', 'border-l-emerald-500': toast.color === 'success', 'border-l-red-600': toast.color === 'error' }"
+      x-transition.scale.0.origin.bottom.center.duration.150ms
+      @mouseenter="stopDismiss(id)"
+      @mouseleave="startDismiss(id)"
+    >
+      <div>
+        <p
+          x-if="toast.title === undefined"
+          x-text="toast.title"
+          class="font-bold"
+        >
+        </p>
+        <span x-text="toast.message" class="text-sm"></span>
+      </div>
+      <button
+        x-if="toast.dismissable"
+        type="button"
+        class="ml-4"
+        @click="dismiss(id)"
+      >
+        <svg
+          height="1em"
+          style="enable-background:new 0 0 512 512;"
+          version="1.1"
+          viewBox="0 0 512 512"
+          width="1em"
+          xml:space="preserve"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          ><path
+            fill="currentColor"
+            d="M437.5,386.6L306.9,256l130.6-130.6c14.1-14.1,14.1-36.8,0-50.9c-14.1-14.1-36.8-14.1-50.9,0L256,205.1L125.4,74.5  c-14.1-14.1-36.8-14.1-50.9,0c-14.1,14.1-14.1,36.8,0,50.9L205.1,256L74.5,386.6c-14.1,14.1-14.1,36.8,0,50.9  c14.1,14.1,36.8,14.1,50.9,0L256,306.9l130.6,130.6c14.1,14.1,36.8,14.1,50.9,0C451.5,423.4,451.5,400.6,437.5,386.6z"
+          ></path></svg
+        >
+      </button>
+    </div>
+  </template>
+</div>
+
+<script>
+  import Alpine from "alpinejs";
+  import { toasts } from "../stores/toasts";
+
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("toasts", toasts);
+  });
+</script>

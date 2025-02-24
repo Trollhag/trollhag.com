@@ -1,0 +1,186 @@
+---
+import Input from "./shared/Input.astro";
+import stylez from "../utils/stylez";
+---
+
+<form id="contact-form" class="grid grid-cols-2 gap-4">
+  <Input type="text" name="name" label="Namn" palette="light" />
+  <Input type="text" name="company" label="Företag" palette="light" />
+  <div class="col-span-2 grid grid-cols-2 gap-x-4">
+    <Input type="text" name="phone" label="Telefon" palette="light" />
+    <Input type="text" name="email" label="Epost" palette="light" />
+    <Input
+      type="hidden"
+      name="phone-email"
+      palette="light"
+      class="col-span-2"
+    />
+  </div>
+  <Input
+    type="textarea"
+    name="message"
+    label="Meddelande"
+    palette="light"
+    class="col-span-2"
+  />
+  <div class="col-span-2 flex justify-between">
+    <div>
+      <input
+        id="contact-form-consent"
+        type="checkbox"
+        name="consent"
+        value="consent"
+      />
+      <label for="contact-form-consent"
+        >Jag har läst och godkänner <a href="/integritetspolicy"
+          >integritetspolicyn</a
+        ></label
+      >
+    </div>
+    <button
+      type="submit"
+      class:list={[stylez.button({ palette: "light", size: "small" }), "mt-4"]}
+    >
+      Skicka
+    </button>
+  </div>
+</form>
+
+<script>
+  import { z } from "zod";
+  import { triggerToast } from "../stores/toasts";
+  import { actions } from "astro:actions";
+
+  const ContactFormSchema = {
+    name: z.string().min(1, {
+      message: "Fyll i ditt namn så jag vet vem som kontaktar mig",
+    }),
+    company: z.string().optional(),
+    phone: z.string().optional(),
+    email: z.literal("").or(z.string().email()),
+    "phone-email": z.literal(""),
+    message: z
+      .string()
+      .min(1, { message: "Berätta gärna lite om varför du kontaktar mig" }),
+    consent: z.literal("consent", { message: "" }),
+  };
+  const ContactFormValidator = z
+    .object(ContactFormSchema)
+    .superRefine((data, ctx) => {
+      if (!data.phone && !data.email) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "Telefon eller Epost måste fyllas i så jag kan kontakta dig tillbaka",
+          path: ["phone-email", "phone", "email"],
+        });
+      }
+    });
+
+  const form = document.getElementById("contact-form");
+  interface FormFieldElements {
+    input: HTMLInputElement | null;
+    label: Element | null;
+    error: Element | null;
+  }
+  class FormField {
+    public name: string;
+    public readonly elements: FormFieldElements = {
+      input: null,
+      label: null,
+      error: null,
+    };
+    public error: z.ZodIssue | null = null;
+
+    constructor(fieldName: string) {
+      this.name = fieldName;
+      this.elements.input = form!.querySelector(`[name=${fieldName}]`);
+      if (this.elements.input) {
+        this.elements.label = this.elements.input.previousElementSibling;
+        this.elements.error = this.elements.input.nextElementSibling;
+      }
+    }
+
+    public orUndefined() {
+      if (!this.elements.input) return undefined;
+      return this;
+    }
+
+    public clearError() {
+      this.elements.input?.classList.remove("border-red-500");
+      this.elements.label?.classList.remove("text-red-500");
+      if (this.elements.error) this.elements.error.textContent = "";
+    }
+
+    public setError(error: z.ZodIssue) {
+      if (this.error) return;
+      this.error = error;
+      this.elements.input?.classList.add("border-red-500");
+      // field.label.classList.add("text-red-500");
+      if (this.elements.error && this.name === error.path[0]) {
+        this.elements.error.textContent = error.message;
+      }
+    }
+
+    public reset() {
+      this.clearError();
+      if (this.elements.input) {
+        this.elements.input.value = "";
+      }
+    }
+
+    public get value(): string {
+      console.log(this.elements.input);
+      return this.elements.input?.value ?? "";
+    }
+  }
+  const fields: {
+    [name in keyof typeof ContactFormSchema]?: FormField;
+  } = {};
+  let fieldName: keyof typeof ContactFormSchema;
+  for (fieldName in ContactFormSchema) {
+    fields[fieldName] = new FormField(fieldName).orUndefined();
+  }
+  form!.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const data: { [k: string]: string | null } = {};
+    for (const [fieldName, field] of Object.entries(fields)) {
+      if (!field) continue;
+      data[fieldName] = field.value;
+    }
+    console.log({ data });
+
+    ContactFormValidator.spa(data).then(({ success, error, data }) => {
+      if (!success) {
+        console.log(error.errors);
+        for (let err of error.errors) {
+          err.path.forEach((name) => {
+            const field = fields[name as keyof typeof ContactFormSchema];
+            field?.setError(err);
+          });
+        }
+      } else {
+        // sendMessage("ContactForm", data)
+        actions
+          .contact(data)
+          .then(() => {
+            triggerToast({
+              color: "success",
+              title: "Hurra 🎉",
+              message:
+                "Ditt meddelande hade skickats utan problem, vi hörs snart!",
+            });
+          })
+          .catch(() => {
+            triggerToast({
+              color: "error",
+              title: "Hoppsan ⁉️",
+              message:
+                "Kunde inte skicka in formuläret, vänligen skicka ett mail istället!",
+            });
+          });
+      }
+    });
+  });
+</script>

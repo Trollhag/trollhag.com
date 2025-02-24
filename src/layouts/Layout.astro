@@ -1,6 +1,8 @@
 ---
 // https://docs.astro.build/en/guides/view-transitions/
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
+import Actions from "../components/Actions.astro";
+import Toast from "../components/Toast.astro";
 
 interface Props {
   title: string;
@@ -10,7 +12,11 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html
+  lang="en"
+  x-data="{ darkmode: false }"
+  @app:darkmode.window="darkmode = $event.detail"
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -30,12 +36,17 @@ const { title } = Astro.props;
     />
 
     <title>{title}</title>
-    <ViewTransitions />
+    <ClientRouter />
   </head>
-  <body>
+  <body class="text-zinc-950 dark:text-zinc-50 bg-zinc-50 dark:bg-slate-900">
     <main>
       <slot />
     </main>
+    <footer class="p-8">
+      <p class="text-center">Copyright © 2025 Oscar Trollhag</p>
+    </footer>
+    <Actions />
+    <Toast />
     <style is:global>
       /* .link {
         position: relative;
@@ -55,5 +66,42 @@ const { title } = Astro.props;
         }
       } */
     </style>
+    <script>
+      import gsap, { ScrollToPlugin, ScrollTrigger } from "gsap/all";
+      gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
+
+      document.querySelectorAll("a[href^='#']").forEach(function (anchor) {
+        anchor.addEventListener("click", function (event) {
+          event.preventDefault();
+
+          const scrollTo = anchor.getAttribute("href");
+          if (scrollTo) {
+            gsap.to(window, { scrollTo });
+          }
+        });
+      });
+
+      function toggleDarkMode() {
+        document.documentElement.classList.toggle("dark");
+        localStorage.setItem(
+          "theme",
+          document.documentElement.classList.contains("dark")
+            ? "dark"
+            : "light",
+        );
+      }
+      window.addEventListener("app:darkmode", toggleDarkMode);
+
+      const cached = localStorage.theme;
+      const prefersDarkMode = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      if (
+        !document.documentElement.classList.contains("dark") &&
+        (cached === "dark" || (!cached && prefersDarkMode))
+      ) {
+        window.dispatchEvent(new CustomEvent("app:darkmode", { detail: true }));
+      }
+    </script>
   </body>
 </html>

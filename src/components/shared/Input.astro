@@ -1,0 +1,56 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import type { StylezProps } from "../../utils/stylez";
+import stylez from "../../utils/stylez";
+
+const style = stylez.input;
+const palettes: { [k in keyof typeof style.attributes.palette]: string } = {
+  primary: "",
+  light: "text-neutral-50",
+};
+
+interface CustomProps extends Partial<StylezProps<typeof style.attributes>> {
+  type?: HTMLAttributes<"input">["type"] | "textarea";
+  label?: string;
+}
+
+type Props = CustomProps &
+  (
+    | Omit<HTMLAttributes<"input">, "size" | "type">
+    | Omit<HTMLAttributes<"textarea">, "size">
+  );
+
+const {
+  type,
+  label,
+  palette = style.defaults?.palette,
+  size,
+  class: _class,
+  "class:list": classList,
+  ...props
+} = Astro.props;
+---
+
+<fieldset class:list={[_class, classList]}>
+  {
+    label && (
+      <label
+        for={props.id}
+        class:list={[
+          palette && palettes[palette],
+          "block w-full font-bold px-3 mb-1",
+        ]}
+      >
+        {label}
+      </label>
+    )
+  }
+  {
+    type !== "textarea" ? (
+      <input type={type} {...props} class:list={[style({ palette, size })]} />
+    ) : (
+      <textarea {...props} class:list={[style({ palette, size })]} />
+    )
+  }
+  <p class="text-neutral-50 underline decoration-red-500"></p>
+</fieldset>

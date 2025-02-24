@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
-
-import react from "@astrojs/react";
+import awsAmplify from "astro-aws-amplify";
+import sitemap from "@astrojs/sitemap";
 
 // Change this depending on your hosting provider (Vercel, Netlify etc)
 // https://docs.astro.build/en/guides/server-side-rendering/#adding-an-adapter
@@ -8,9 +8,26 @@ import react from "@astrojs/react";
 
 import tailwind from "@astrojs/tailwind";
 
+import alpinejs from "@astrojs/alpinejs";
+
 // https://astro.build/config
 export default defineConfig({
-  output: "static",
-  site: "https://trollhag.com",
-  integrations: [react(), tailwind()]
+  output: "server", // "static",
+  // site: "https://trollhag.com",
+  adapter: awsAmplify(),
+  integrations: [
+    sitemap({
+      serialize(item) {
+        if (/frontpage/.test(item.url)) {
+          return undefined;
+        }
+        return item
+      }
+    }),
+    tailwind(),
+    alpinejs(),
+  ],
+  experimental: {
+    svg: true,
+  },
 });

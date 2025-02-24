@@ -1,0 +1,87 @@
+---
+import { Picture } from "astro:assets";
+import stylez from "../utils/stylez";
+import SicaLight from "../assets/case/sicalight.webp";
+import TamroPlay from "../assets/case/tamroplay.webp";
+---
+
+<section id="projects" class="py-14">
+  <div data-scroller="" class="container mx-auto">
+    <div class="grid grid-cols-2 gap-6">
+      <div class="px-6">
+        <h2 data-animate="" class="text-4xl font-semibold mb-8">
+          Utvalda projekt
+        </h2>
+      </div>
+      <div></div>
+    </div>
+    <div class="grid grid-cols-2 gap-6">
+      <div data-animate="">
+        <a href="https://sicalight.com/" target="_blank">
+          <Picture
+            src={SicaLight}
+            alt="https://sicalight.com/"
+            class="max-w-full"
+          />
+        </a>
+        <div class="pt-3 px-6">
+          <p class="mb-1">
+            <a
+              href="https://sicalight.com/"
+              target="_blank"
+              class:list={[stylez.link()]}>Kampanjwebb - AC Floby</a
+            > - Byggd med React och WordPress.
+          </p>
+          <p>
+            Genomfördes hos <a
+              href="https://businessandemotions.se/"
+              target="_blank"
+              class:list={[stylez.link()]}>Business & Emotions</a
+            >.
+          </p>
+        </div>
+      </div>
+      <div data-animate="">
+        <a href="https://tamroplay.se/" target="_blank">
+          <Picture
+            src={TamroPlay}
+            alt="https://tamroplay.se/"
+            class="max-w-full"
+          />
+        </a>
+        <div class="pt-3 px-6">
+          <p class="mb-1">
+            <a
+              href="https://tamroplay.se/"
+              target="_blank"
+              class:list={[stylez.link()]}>Kampanjwebb - Tamro</a
+            > - Byggd med Next.js och tailwindcss.
+          </p>
+          <p>
+            Design av <a
+              href="https://businessandemotions.se/"
+              target="_blank"
+              class:list={[stylez.link()]}>Business & Emotions</a
+            >.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap, { ScrollTrigger } from "gsap/all";
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.from("#projects [data-animate]", {
+    y: 60,
+    opacity: 0,
+    stagger: 0.25,
+    scrollTrigger: {
+      trigger: "#projects [data-scroller]",
+      start: "top bottom",
+      end: "bottom bottom",
+      scrub: true,
+    },
+  });
+</script>
