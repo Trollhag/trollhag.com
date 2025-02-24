@@ -1,4 +1,5 @@
 import { ActionError, defineAction } from 'astro:actions';
+import { getSecret } from 'astro:env/server';
 import { z } from "astro:schema";
 
 const msg_template = `
@@ -20,11 +21,17 @@ export const contact = defineAction({
   }),
   async handler(data) {
     const msg = msg_template.replace(/{{\s?([^\s}]+)\s?}}/g, (_, b) => String(data[b as keyof typeof data] ?? ""));
-    const result = await fetch(import.meta.env.CONTACT_FORM_WEBHOOK_URL, {
+    const url = getSecret("CONTACT_FORM_WEBHOOK_URL");
+    if (!url) {
+      console.error(`Cannot find required secret: CONTACT_FORM_WEBHOOK_URL`);
+      throw new Error();
+    }
+    const result = await fetch(url, {
       method: 'POST',
       body: JSON.stringify({ msg })
     })
     if (Math.floor(result.status / 100) > 2) {
+      console.error(`Request to CONTACT_FORM_WEBHOOK_URL failed`)
       throw new ActionError({ code: 'BAD_REQUEST' });
     }
   }
