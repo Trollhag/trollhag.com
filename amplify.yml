@@ -8,8 +8,6 @@ frontend:
       commands:
         - env >> .env
         - npm run build
-        - npm ci --omit=dev
-        - mv node_modules ./.amplify-hosting/compute/default
         - mv .env ./.amplify-hosting/compute/default/.env
   artifacts:
     baseDirectory: .amplify-hosting
