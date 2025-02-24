@@ -130,7 +130,6 @@ import stylez from "../utils/stylez";
     }
 
     public get value(): string {
-      console.log(this.elements.input);
       return this.elements.input?.value ?? "";
     }
   }
@@ -149,11 +148,9 @@ import stylez from "../utils/stylez";
       if (!field) continue;
       data[fieldName] = field.value;
     }
-    console.log({ data });
 
     ContactFormValidator.spa(data).then(({ success, error, data }) => {
       if (!success) {
-        console.log(error.errors);
         for (let err of error.errors) {
           err.path.forEach((name) => {
             const field = fields[name as keyof typeof ContactFormSchema];
