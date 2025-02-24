@@ -9,6 +9,9 @@ frontend:
         - env >> .env
         - npm run build
         - mv .env ./.amplify-hosting/compute/default/.env
+        - cp {package,package-lock}.json ./.amplify-hosting/compute/default/
+        - cd .amplify-hosting/compute/default/
+        - npm ci --omit=dev
   artifacts:
     baseDirectory: .amplify-hosting
     files:
