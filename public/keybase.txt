@@ -1,0 +1,75 @@
+==================================================================
+https://keybase.io/trollhag
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://trollhag.com
+  * I am trollhag (https://keybase.io/trollhag) on keybase.
+  * I have a public key with fingerprint 1F59 E802 D5CD 9633 4AB1  A464 73E5 9873 AC84 E4F6
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "012065afd98e28fd3bb0311e1fac0fbbdcfce08368623f970ce06cf045ef588d97680a",
+      "fingerprint": "1f59e802d5cd96334ab1a46473e59873ac84e4f6",
+      "host": "keybase.io",
+      "key_id": "73e59873ac84e4f6",
+      "kid": "0101bfe752bf8da8090dd77afec3bca91067d889138139fabc40cc46de3ca4b05cab0a",
+      "uid": "dd27fdbe31dad0e27635ffb52b5f2b19",
+      "username": "trollhag"
+    },
+    "service": {
+      "hostname": "trollhag.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1740059583,
+  "expire_in": 157680000,
+  "prev": "c3139ffb2d2e1cf0cc7b93e6ed433e30414424a2ddf8e0fb9157ffab323390bb",
+  "seqno": 6,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.1.13
+Comment: https://keybase.io/crypto
+
+yMNtAnicbVJ/UBRVHD86MLpghnHMKfMXKyrNIOzu293bPZBy6AeT9gNiLJQ89u17
+D1aOu+PuOCA6gwQCjKQcVAKFEZzJhCQYK0hRFCMlCxMZmVELSNJAgxDNnKRdJv9p
+ev+8+X7f5/N5n++P7mCjweTnvrrb3VT0y22/3q5d2Ya0L8GxfAo6UB5lyacy8OyF
+bQi7PdYMFVEWimZYWuBlgiQRsyJBAEIaMAxmiKzQBEKkEAXTIhBEgQVEMtNaJCiE
+5nhMeFFEklkQaZmKoIhqT8Mup0u1ezRZhvASFmkW8QqSBAA4GTIyJ3BmgHlJNANZ
+ETnMEUEjpjvcOkMzB2U3jlQdWk4LrLP2/gf/wDfNQILNPAuJiGSRlmiEzGaZYAVA
+RZYYWjAjUZQYIDJAIjJUOFpROAFhoMgcpHlFhrO+s2flEGLNBEEMGCQjGrNmAfCE
+QE2dJyxkJB3oxi67nIk1tMflsNnS5TTKF0FpWa+qYL2xeiX/QUQqjkyN63Q5PA7F
+YdNe0j0ep9uiMz15Th2ag6H1XxErVO1I66PG8GKXW3XYKQujIRWPqqsyZo6meYkX
+QQSFc52qC1tVHcHrM9CO/g/2apIK0GsmkEUsZrRhKYoZSgALGHEAYEBzDMexnMwi
+RESsTVnSJIjWI8ACINEQUnpZWXYHZRE0m1qdFsqtptllT7YLU74TXSn+Bj+TYU7A
+Q/p+GUyPhDzYuoyeEEOVu3PeVNLGPTktBF57vvL9x6TjKY21+a9viuB7Gl7uGDGG
+tw8P1p68ZI/2TvqsRG04cC/wgHNtTkxAdUq8LeiHrJbDTXzRjYbwMjj4VP026+V4
+tdnbvee67fz92COpz6yKZ2o/3Bm9wiAca/ft+6qkbO9wl6k9t7F2bHHLuWqY0F6w
+JvNOmX3zEuemG91Z3NyirgDX0pmCLbFbQwIf37sA331u7kyYW+ZeTfAvLmeCF+bO
+mRlMHVi/471QLi0qsSZ1+6FPS8P3lUQv2XliKHGA39KUHRSXnjS6ujzZl7Bu/k+d
+9VcTje/0c7JYrhqXt5X3nRnwBvxZ8/vHiTOLzsSVXdzw+Y+gvzQppvrFjAn+3vSO
+jrOZCb6qU63LVrRt7BRjTNa355vqTr07zo9Fin+1GT95Y0H90LW7b/aNrmss6Tdd
+vpmcvP+Lr7+fiJLZPszHnsSRT0T1XnnaMR42vrizYfXkC0G/fnY/4fylgm2BKwc+
+uL59+rfuef0f+Z8rXPhzsd93t2cSB5/dMJISXGz/e2lUYUlLY+WFzIkLwpoxsfj4
+2VaSs3b41tbKJ28dDXr0tbCpisOHNnfUTX4T+kqhscferMYvuxlx+ki5sS5s14g3
+OPThuOnh3oPL159eye+uKIo8eLFi0R85bw1Zp0o6HK0T3VlVQ3f257Wlj5aho2KN
+smrMU4peav72yuA/8F3Nmw==
+=q85N
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/trollhag
+
+==================================================================
