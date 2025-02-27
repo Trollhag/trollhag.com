@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Open Sans", "sans-serif";
+
+  --color-primary-50: var(--color-emerald-50);
+  --color-primary-100: var(--color-emerald-100);
+  --color-primary-200: var(--color-emerald-200);
+  --color-primary-300: var(--color-emerald-300);
+  --color-primary-400: var(--color-emerald-400);
+  --color-primary-500: var(--color-emerald-500);
+  --color-primary-600: var(--color-emerald-600);
+  --color-primary-700: var(--color-emerald-700);
+  --color-primary-800: var(--color-emerald-800);
+  --color-primary-900: var(--color-emerald-900);
+  --color-primary-950: var(--color-emerald-950);
+}
+
+@utility rise {
+  @apply -translate-y-1;
+}
+
+@utility link {
+  @apply inline-block underline underline-offset-4 hover:underline-offset-[6px] transition-all duration-500 hover:rise;
+}
+
+@utility button {
+  @apply cursor-pointer inline-block rounded-xs py-3 px-8 hover:shadow-md transition-all duration-500 hover:rise;
+}
+
+@utility button-small {
+  @apply py-2 px-5;
+}
+
+@utility button-large {
+  @apply py-6 px-12;
+}
+
+@utility border-button-primary {
+  @apply border-2 border-primary-600 text-primary-600;
+}
+
+@utility border-button-light {
+  @apply border-2 border-neutral-50 text-neutral-50;
+}
+
+@utility button-primary {
+  @apply text-neutral-50 bg-primary-600;
+}
+
+@utility button-light {
+  @apply text-primary-600 bg-neutral-50;
+}
+
+.business-hero__image {
+  position: relative;
+  z-index: -1;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    background: currentColor;
+    border-radius: 9999999px;
+  }
+
+  &::before {
+    top: var(--animate-1-top, 0);
+    left: var(--animate-1-left, 0);
+    width: 1000%;
+    transform: rotateZ(-45deg) translate(-76.8%, -318%);
+  }
+
+  &::after {
+    bottom: var(--animate-2-bottom, 0);
+    left: var(--animate-2-left, -170%);
+    width: 1000%;
+    transform: rotateZ(-45deg) translate(20%, -90%);
+
+    @media (width >=theme(--breakpoint-sm)) {
+      transform: rotateZ(-45deg) translate(14%, -318%);
+    }
+  }
+
+  img {
+    position: relative;
+    z-index: 1;
+  }
+}

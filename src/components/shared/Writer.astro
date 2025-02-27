@@ -6,7 +6,8 @@ interface Props {
 }
 ---
 
-<astro-writer data-props={JSON.stringify(Astro.props)}></astro-writer>
+<astro-writer data-props={JSON.stringify(Astro.props)} class="text-nowrap"
+></astro-writer>
 
 <script>
   import gsap from "gsap";

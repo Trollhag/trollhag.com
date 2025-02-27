@@ -1,5 +1,7 @@
 ---
-// https://docs.astro.build/en/guides/view-transitions/
+import "../styles/global.css";
+import "@fontsource/open-sans";
+import "@fontsource/open-sans/600.css";
 import { ClientRouter } from "astro:transitions";
 import Actions from "../components/Actions.astro";
 import Toast from "../components/Toast.astro";
@@ -14,8 +16,9 @@ const { title } = Astro.props;
 <!doctype html>
 <html
   lang="en"
-  x-data="{ darkmode: false }"
-  @app:darkmode.window="darkmode = $event.detail"
+  x-data="{ darkmode: !localStorage.theme ? window.matchMedia('(prefers-color-scheme: dark)').matches : localStorage.theme === 'dark' }"
+  :class="{ dark: darkmode }"
+  @app:darkmode.window="darkmode = $event.detail; localStorage.setItem('theme', $event.detail ? 'dark' : 'light')"
 >
   <head>
     <meta charset="UTF-8" />
@@ -47,25 +50,7 @@ const { title } = Astro.props;
     </footer>
     <Actions />
     <Toast />
-    <style is:global>
-      /* .link {
-        position: relative;
-        &::after {
-          content: "";
-          position: absolute;
-          width: calc(100% - 0.6em);
-          left: 0.3em;
-          opacity: 0;
-          bottom: 0;
-          transition: all 0.3s ease;
-          border-bottom: 1px solid #16a34a;
-        }
-        &:hover::after {
-          opacity: 1;
-          bottom: -0.2em;
-        }
-      } */
-    </style>
+    <!-- <style is:global></style> -->
     <script>
       import gsap, { ScrollToPlugin, ScrollTrigger } from "gsap/all";
       gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
@@ -81,27 +66,16 @@ const { title } = Astro.props;
         });
       });
 
-      function toggleDarkMode() {
-        document.documentElement.classList.toggle("dark");
-        localStorage.setItem(
-          "theme",
-          document.documentElement.classList.contains("dark")
-            ? "dark"
-            : "light",
-        );
-      }
-      window.addEventListener("app:darkmode", toggleDarkMode);
-
-      const cached = localStorage.theme;
-      const prefersDarkMode = window.matchMedia(
-        "(prefers-color-scheme: dark)",
-      ).matches;
-      if (
-        !document.documentElement.classList.contains("dark") &&
-        (cached === "dark" || (!cached && prefersDarkMode))
-      ) {
-        window.dispatchEvent(new CustomEvent("app:darkmode", { detail: true }));
-      }
+      // const cached = localStorage.theme;
+      // const prefersDarkMode = window.matchMedia(
+      //   "(prefers-color-scheme: dark)",
+      // ).matches;
+      // if (
+      //   !document.documentElement.classList.contains("dark") &&
+      //   (cached === "dark" || (!cached && prefersDarkMode))
+      // ) {
+      //   window.dispatchEvent(new CustomEvent("app:darkmode", { detail: true }));
+      // }
     </script>
   </body>
 </html>

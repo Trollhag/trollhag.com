@@ -1,13 +1,12 @@
 ---
 import { Picture } from "astro:assets";
 import Writer from "./shared/Writer.astro";
-import stylez from "../utils/stylez";
 import Portrait from "../assets/portrait.jpg";
 ---
 
 <section class="business-hero min-h-screen flex items-center overflow-hidden">
-  <div class="container mx-auto py-10 relative z-10">
-    <h1 class="business-hero__heading font-normal text-4xl">
+  <div class="container mx-auto p-10 relative z-10">
+    <h1 class="business-hero__heading font-normal text-4xl/normal mb-8">
       <b>Oscar Trollhag</b> | <Writer
         prepend={["Frilanskonsult", "Fullstack-utvecklare"]}
         texts={[
@@ -21,25 +20,30 @@ import Portrait from "../assets/portrait.jpg";
       <noscript>Frilanskonsult inom Webbutveckling och Data/IT</noscript>
     </h1>
     <div
-      class="business-hero__body grid grid-cols-3 gap-8 items-center text-2xl"
+      class="business-hero__body flex flex-wrap-reverse md:grid grid-cols-3 gap-8 items-center text-xl sm:text-2xl"
     >
       <div class="col-span-2">
         <p>
-          <span class="text-4xl">Hej! 👋</span> Jag är frilanskonsult och webbutvecklare
-          som älskar att bygga snabba, snygga och smarta webbapplikationer. Med 10+
-          års erfarenhet hjälper jag företag att skapa bättre digitala lösningar
-          – från nya webbplatser till vidareutveckling och optimering av befintliga
-          system.
+          <span class="text-2xl sm:text-4xl">Hej! 👋 </span>Jag är
+          frilanskonsult och webbutvecklare som älskar att bygga snabba, snygga
+          och smarta webbapplikationer. Med 10+ års erfarenhet hjälper jag
+          företag att skapa bättre digitala lösningar – från nya webbplatser
+          till vidareutveckling och optimering av befintliga system.
         </p>
         <ul class="flex gap-4 justify-between items-center mt-6">
           <li>
-            <a href="#services" class:list={[stylez.link()]}> Tjänster </a>
+            <a href="#services" class="link decoration-primary-600">
+              Tjänster
+            </a>
           </li>
           <li>
-            <a href="#projects" class:list={[stylez.link()]}>Projekt</a>
+            <a href="#projects" class="link decoration-primary-600">Projekt</a>
           </li>
           <li>
-            <a href="#contact" class:list={[stylez.button({ size: "small" })]}>
+            <a
+              href="#contact"
+              class="button button-small border-button-primary hover:button-primary"
+            >
               Kontakt
             </a>
           </li>
@@ -78,44 +82,3 @@ import Portrait from "../assets/portrait.jpg";
     },
   );
 </script>
-
-<style>
-  .business-hero__image {
-    position: relative;
-    z-index: -1;
-
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      height: 100%;
-      background: currentColor;
-      border-radius: 9999999px;
-    }
-    &::before {
-      top: var(--animate-1-top, 0);
-      left: var(--animate-1-left, 0);
-      width: 1000%;
-      transform: rotateZ(-45deg) translate(-76.8%, -318%);
-    }
-    &::after {
-      bottom: var(--animate-2-bottom, 0);
-      left: var(--animate-2-left, -170%);
-      width: 1000%;
-      transform: rotateZ(-45deg) translate(14%, -318%);
-    }
-    img {
-      position: relative;
-      z-index: 1;
-    }
-  }
-  /* .business-hero__heading {
-    font-weight: normal;
-  }
-  .business-hero__body {
-    font-size: 1.6rem;
-  }
-  .business-hero__body img {
-    border-radius: 50%;
-  } */
-</style>

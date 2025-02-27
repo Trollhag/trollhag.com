@@ -10,8 +10,8 @@ import ContactForm from "./ContactForm.astro";
     >
       Hör av dig!
     </h2>
-    <div data-animate="" class="grid grid-cols-2 gap-6">
-      <div class="px-6 text-neutral-50">
+    <div data-animate="" class="md:grid grid-cols-2 gap-6">
+      <div class="px-6 mb-6 text-neutral-50">
         <p class="mb-4">
           Har du en idé, ett projekt eller en fråga? Oavsett om det handlar om
           samarbete, nätverkande eller bara ett intressant samtal, är du mer än
@@ -20,12 +20,21 @@ import ContactForm from "./ContactForm.astro";
         </p>
         <p class="mb-4"></p>
         <ul>
-          <li>Epost: <a href="#">oscar@trollhag.com</a></li>
-          <li>LinkedIn: <a href="#">LinkedIn</a></li>
+          <li>
+            Epost: <a
+              href="mailto:oscar@trollhag.com"
+              target="_blank"
+              class="link decoration-black">oscar@trollhag.com</a
+            >
+          </li>
+          <li>
+            LinkedIn: <a
+              href="https://www.linkedin.com/in/oscar-trollhag/"
+              target="_blank"
+              class="link decoration-black">linkedin.com/in/oscar-trollhag/</a
+            >
+          </li>
         </ul>
-      </div>
-      <div data-animate="" class="px-6">
-        <ContactForm />
       </div>
     </div>
   </div>

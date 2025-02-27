@@ -1,13 +1,12 @@
 ---
 import { Picture } from "astro:assets";
-import stylez from "../utils/stylez";
 import SicaLight from "../assets/case/sicalight.webp";
 import TamroPlay from "../assets/case/tamroplay.webp";
 ---
 
 <section id="projects" class="py-14">
   <div data-scroller="" class="container mx-auto">
-    <div class="grid grid-cols-2 gap-6">
+    <div class="md:grid grid-cols-2 gap-6">
       <div class="px-6">
         <h2 data-animate="" class="text-4xl font-semibold mb-8">
           Utvalda projekt
@@ -15,8 +14,8 @@ import TamroPlay from "../assets/case/tamroplay.webp";
       </div>
       <div></div>
     </div>
-    <div class="grid grid-cols-2 gap-6">
-      <div data-animate="">
+    <div class="md:grid grid-cols-2 gap-6 px-6 md:px-0">
+      <div data-animate="" class="mb-6">
         <a href="https://sicalight.com/" target="_blank">
           <Picture
             src={SicaLight}
@@ -29,19 +28,19 @@ import TamroPlay from "../assets/case/tamroplay.webp";
             <a
               href="https://sicalight.com/"
               target="_blank"
-              class:list={[stylez.link()]}>Kampanjwebb - AC Floby</a
+              class="link decoration-primary-600">Kampanjwebb - AC Floby</a
             > - Byggd med React och WordPress.
           </p>
           <p>
             Genomfördes hos <a
               href="https://businessandemotions.se/"
               target="_blank"
-              class:list={[stylez.link()]}>Business & Emotions</a
+              class="link decoration-primary-600">Business & Emotions</a
             >.
           </p>
         </div>
       </div>
-      <div data-animate="">
+      <div data-animate="" class="mb-6">
         <a href="https://tamroplay.se/" target="_blank">
           <Picture
             src={TamroPlay}
@@ -54,14 +53,14 @@ import TamroPlay from "../assets/case/tamroplay.webp";
             <a
               href="https://tamroplay.se/"
               target="_blank"
-              class:list={[stylez.link()]}>Kampanjwebb - Tamro</a
+              class="link decoration-primary-600">Kampanjwebb - Tamro</a
             > - Byggd med Next.js och tailwindcss.
           </p>
           <p>
             Design av <a
               href="https://businessandemotions.se/"
               target="_blank"
-              class:list={[stylez.link()]}>Business & Emotions</a
+              class="link decoration-primary-600">Business & Emotions</a
             >.
           </p>
         </div>

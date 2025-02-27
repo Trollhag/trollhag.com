@@ -1,45 +1,41 @@
 ---
 import Input from "./shared/Input.astro";
-import stylez from "../utils/stylez";
+import Checkbox from "./shared/Checkbox.astro";
 ---
 
 <form id="contact-form" class="grid grid-cols-2 gap-4">
-  <Input type="text" name="name" label="Namn" palette="light" />
-  <Input type="text" name="company" label="Företag" palette="light" />
+  <Input type="text" name="name" label="Namn" color="light" />
+  <Input type="text" name="company" label="Företag" color="light" />
   <div class="col-span-2 grid grid-cols-2 gap-x-4">
-    <Input type="text" name="phone" label="Telefon" palette="light" />
-    <Input type="text" name="email" label="Epost" palette="light" />
-    <Input
-      type="hidden"
-      name="phone-email"
-      palette="light"
-      class="col-span-2"
-    />
+    <Input type="text" name="phone" label="Telefon" color="light" />
+    <Input type="text" name="email" label="Epost" color="light" />
+    <Input type="hidden" name="phone-email" color="light" class="col-span-2" />
   </div>
   <Input
     type="textarea"
     name="message"
     label="Meddelande"
-    palette="light"
+    color="light"
     class="col-span-2"
   />
   <div class="col-span-2 flex justify-between">
     <div>
-      <input
+      <Checkbox
         id="contact-form-consent"
-        type="checkbox"
         name="consent"
+        color="light"
         value="consent"
-      />
-      <label for="contact-form-consent"
-        >Jag har läst och godkänner <a href="/integritetspolicy"
-          >integritetspolicyn</a
-        ></label
       >
+        Jag har läst och godkänner <a
+          href="/integritetspolicy"
+          @click.stop
+          class="link decoration-black">integritetspolicyn</a
+        >
+      </Checkbox>
     </div>
     <button
       type="submit"
-      class:list={[stylez.button({ palette: "light", size: "small" }), "mt-4"]}
+      class="button button-small border-button-light hover:button-light"
     >
       Skicka
     </button>
@@ -49,7 +45,8 @@ import stylez from "../utils/stylez";
 <script>
   import { z } from "zod";
   import { triggerToast } from "../stores/toasts";
-  import { actions } from "astro:actions";
+  import { FormInput } from "../utils/form";
+  import keybase from "../utils/keybase";
 
   const ContactFormSchema = {
     name: z.string().min(1, {
@@ -62,11 +59,11 @@ import stylez from "../utils/stylez";
     message: z
       .string()
       .min(1, { message: "Berätta gärna lite om varför du kontaktar mig" }),
-    consent: z.literal("consent", { message: "" }),
   };
   const ContactFormValidator = z
     .object(ContactFormSchema)
     .superRefine((data, ctx) => {
+      console.warn({ data });
       if (!data.phone && !data.email) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -77,90 +74,42 @@ import stylez from "../utils/stylez";
       }
     });
 
-  const form = document.getElementById("contact-form");
-  interface FormFieldElements {
-    input: HTMLInputElement | null;
-    label: Element | null;
-    error: Element | null;
-  }
-  class FormField {
-    public name: string;
-    public readonly elements: FormFieldElements = {
-      input: null,
-      label: null,
-      error: null,
-    };
-    public error: z.ZodIssue | null = null;
-
-    constructor(fieldName: string) {
-      this.name = fieldName;
-      this.elements.input = form!.querySelector(`[name=${fieldName}]`);
-      if (this.elements.input) {
-        this.elements.label = this.elements.input.previousElementSibling;
-        this.elements.error = this.elements.input.nextElementSibling;
-      }
-    }
-
-    public orUndefined() {
-      if (!this.elements.input) return undefined;
-      return this;
-    }
-
-    public clearError() {
-      this.elements.input?.classList.remove("border-red-500");
-      this.elements.label?.classList.remove("text-red-500");
-      if (this.elements.error) this.elements.error.textContent = "";
-    }
-
-    public setError(error: z.ZodIssue) {
-      if (this.error) return;
-      this.error = error;
-      this.elements.input?.classList.add("border-red-500");
-      // field.label.classList.add("text-red-500");
-      if (this.elements.error && this.name === error.path[0]) {
-        this.elements.error.textContent = error.message;
-      }
-    }
-
-    public reset() {
-      this.clearError();
-      if (this.elements.input) {
-        this.elements.input.value = "";
-      }
-    }
-
-    public get value(): string {
-      return this.elements.input?.value ?? "";
-    }
-  }
-  const fields: {
-    [name in keyof typeof ContactFormSchema]?: FormField;
-  } = {};
-  let fieldName: keyof typeof ContactFormSchema;
-  for (fieldName in ContactFormSchema) {
-    fields[fieldName] = new FormField(fieldName).orUndefined();
-  }
-  form!.addEventListener("submit", (event) => {
+  const form = document.querySelector<HTMLFormElement>(
+    "#contact-form",
+  ) as HTMLFormElement;
+  const fields = {
+    name: new FormInput(form, "name").orUndefined(),
+    company: new FormInput(form, "company").orUndefined(),
+    phone: new FormInput(form, "phone").orUndefined(),
+    email: new FormInput(form, "email").orUndefined(),
+    "phone-email": new FormInput(form, "phone-email").orUndefined(),
+    message: new FormInput(form, "message").orUndefined(),
+    consent: new FormInput(form, "consent").orUndefined(),
+  };
+  console.log({ fields });
+  form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const data: { [k: string]: string | null } = {};
-    for (const [fieldName, field] of Object.entries(fields)) {
-      if (!field) continue;
-      data[fieldName] = field.value;
+    const formData: { [k: string]: string } = {};
+    for (const [name, field] of Object.entries(fields)) {
+      formData[name] = field?.value ?? "";
     }
 
-    ContactFormValidator.spa(data).then(({ success, error, data }) => {
+    console.log({ formData });
+
+    ContactFormValidator.spa(formData).then(({ success, error, data }) => {
       if (!success) {
+        console.log(error.errors);
         for (let err of error.errors) {
           err.path.forEach((name) => {
-            const field = fields[name as keyof typeof ContactFormSchema];
+            const field = fields[name as keyof typeof fields];
             field?.setError(err);
           });
         }
       } else {
         // sendMessage("ContactForm", data)
-        actions
-          .contact(data)
+        keybase
+          .hello(data)
           .then(() => {
             triggerToast({
               color: "success",

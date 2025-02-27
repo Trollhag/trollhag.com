@@ -1,0 +1,106 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import IconCheck from "../../assets/icons/check.svg";
+
+const style = {
+  palette: {
+    primary: {
+      bg: "bg-primary-600",
+      text: "text-primary-600",
+      border: "border-primary-600",
+    },
+    light: {
+      bg: "bg-neutral-50",
+      text: "text-neutral-50",
+      border: "border-neutral-50",
+    },
+  },
+  size: {
+    unset: "",
+    small: "w-4 h-4",
+    medium: "w-6 h-6",
+    large: "w-8 h-8",
+  },
+  rounded: {
+    unset: "",
+    small: "rounded-sm",
+    medium: "rounded",
+    large: "rounded-lg",
+    full: "rounded-full",
+  },
+};
+const defaultAccent: {
+  [k in keyof typeof style.palette]: keyof typeof style.palette;
+} = {
+  primary: "light",
+  light: "primary",
+};
+
+interface CustomProps {
+  label?: string;
+  color?: keyof typeof style.palette;
+  accent?: keyof typeof style.palette;
+  size?: keyof typeof style.size;
+  rounded?: keyof typeof style.rounded;
+}
+
+type Props = CustomProps & Omit<HTMLAttributes<"input">, "size" | "type">;
+
+const {
+  id = Math.random().toString(36).slice(2, 7),
+  name,
+  label,
+  color = "primary",
+  accent = defaultAccent[color],
+  size = "medium",
+  rounded = "small",
+  class: _class,
+  "class:list": classList,
+  ...props
+} = Astro.props;
+
+const $checkSize = {
+  unset: "",
+  small: "",
+  medium: "text-lg",
+  large: "text-xl",
+}[size];
+const $color = style.palette[color];
+const $accent = style.palette[accent];
+---
+
+<fieldset
+  x-data="{ checked: false }"
+  c-input={name}
+  class:list={[_class, classList]}
+>
+  <input
+    id={id}
+    type="checkbox"
+    name={name}
+    {...props}
+    class="hidden"
+    x-model="checked"
+  />
+  <label
+    for={id}
+    class:list={["flex justify-center", $color.text, "font-bold"]}
+  >
+    <span
+      class:list={[
+        "flex justify-center items-center bg-transparent border-2",
+        $color.border,
+        style.size[size],
+        style.rounded[rounded],
+      ]}
+      :class={`{ 'bg-transparent': !checked, '${$accent.text} ${$color.bg}': checked }`}
+    >
+      <span x-show="checked" x-transition.opacity class={$checkSize}
+        ><IconCheck /></span
+      >
+    </span>
+    <span c-input-label class="ml-2"><slot /></span>
+  </label>
+  <p c-input-error class:list={["underline decoration-red-500", $color.text]}>
+  </p>
+</fieldset>
