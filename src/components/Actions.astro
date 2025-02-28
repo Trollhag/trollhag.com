@@ -10,6 +10,7 @@ import DarkMode from '../assets/icons/mode-dark.svg'
     type="button"
     class="bg-slate-300 dark:bg-slate-800 w-10 h-10 rounded-full shadow"
     @click="$dispatch('app:darkmode', !darkmode)"
+    :title="`Toggle ${darkmode ? 'lightmode' : 'darkmode'}`"
   >
     <template x-if="darkmode"><LightMode class="text-lg m-auto" /></template>
     <template x-if="!darkmode"><DarkMode class="text-lg m-auto" /></template>
