@@ -14,12 +14,7 @@ const { title = 'Frilanskonsult inom Webbutveckling och Data/IT' } = Astro.props
 ---
 
 <!doctype html>
-<html
-  lang="sv"
-  x-data="{ darkmode: !localStorage.theme ? window.matchMedia('(prefers-color-scheme: dark)').matches : localStorage.theme === 'dark' }"
-  :class="{ dark: darkmode }"
-  @app:darkmode.window="darkmode = $event.detail; localStorage.setItem('theme', $event.detail ? 'dark' : 'light')"
->
+<html lang="sv" x-data="darkmode" :class="{ dark: darkmode }">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -41,7 +36,10 @@ const { title = 'Frilanskonsult inom Webbutveckling och Data/IT' } = Astro.props
     <title>Oscar Trollhag | {title}</title>
     <ClientRouter />
   </head>
-  <body class="text-zinc-950 dark:text-zinc-50 bg-zinc-50 dark:bg-slate-900">
+  <body
+    @app:darkmode.window="setDarkmode($event.detail)"
+    class="text-zinc-950 dark:text-zinc-50 bg-zinc-50 dark:bg-slate-900"
+  >
     <main>
       <slot />
     </main>
@@ -52,8 +50,14 @@ const { title = 'Frilanskonsult inom Webbutveckling och Data/IT' } = Astro.props
     <Toast />
     <!-- <style is:global></style> -->
     <script>
+      import Alpine from 'alpinejs'
       import gsap, { ScrollToPlugin, ScrollTrigger } from 'gsap/all'
+      import { darkmode } from '../stores/darkmode'
       gsap.registerPlugin(ScrollToPlugin, ScrollTrigger)
+
+      document.addEventListener('alpine:init', () => {
+        Alpine.data('darkmode', darkmode)
+      })
 
       document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
         anchor.addEventListener('click', function (event) {
