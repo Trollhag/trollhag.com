@@ -1,6 +1,6 @@
 ---
-import Input from "./shared/Input.astro";
-import Checkbox from "./shared/Checkbox.astro";
+import Input from './shared/Input.astro'
+import Checkbox from './shared/Checkbox.astro'
 ---
 
 <form id="contact-form" class="grid grid-cols-2 gap-4">
@@ -43,68 +43,68 @@ import Checkbox from "./shared/Checkbox.astro";
 </form>
 
 <script>
-  import { z } from "zod";
-  import { triggerToast } from "../stores/toasts";
-  import { FormInput } from "../utils/form";
-  import keybase from "../utils/keybase";
+  import { z } from 'zod'
+  import { triggerToast } from '../stores/toasts'
+  import { FormInput } from '../utils/form'
+  import keybase from '../utils/keybase'
 
   const ContactFormSchema = {
     name: z.string().min(1, {
-      message: "Fyll i ditt namn så jag vet vem som kontaktar mig",
+      message: 'Fyll i ditt namn så jag vet vem som kontaktar mig',
     }),
     company: z.string().optional(),
     phone: z.string().optional(),
-    email: z.literal("").or(z.string().email()),
-    "phone-email": z.literal(""),
+    email: z.literal('').or(z.string().email()),
+    'phone-email': z.literal(''),
     message: z
       .string()
-      .min(1, { message: "Berätta gärna lite om varför du kontaktar mig" }),
-  };
+      .min(1, { message: 'Berätta gärna lite om varför du kontaktar mig' }),
+  }
   const ContactFormValidator = z
     .object(ContactFormSchema)
     .superRefine((data, ctx) => {
-      console.warn({ data });
+      console.warn({ data })
       if (!data.phone && !data.email) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message:
-            "Telefon eller Epost måste fyllas i så jag kan kontakta dig tillbaka",
-          path: ["phone-email", "phone", "email"],
-        });
+            'Telefon eller Epost måste fyllas i så jag kan kontakta dig tillbaka',
+          path: ['phone-email', 'phone', 'email'],
+        })
       }
-    });
+    })
 
   const form = document.querySelector<HTMLFormElement>(
-    "#contact-form",
-  ) as HTMLFormElement;
+    '#contact-form',
+  ) as HTMLFormElement
   const fields = {
-    name: new FormInput(form, "name").orUndefined(),
-    company: new FormInput(form, "company").orUndefined(),
-    phone: new FormInput(form, "phone").orUndefined(),
-    email: new FormInput(form, "email").orUndefined(),
-    "phone-email": new FormInput(form, "phone-email").orUndefined(),
-    message: new FormInput(form, "message").orUndefined(),
-    consent: new FormInput(form, "consent").orUndefined(),
-  };
-  console.log({ fields });
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
+    name: new FormInput(form, 'name').orUndefined(),
+    company: new FormInput(form, 'company').orUndefined(),
+    phone: new FormInput(form, 'phone').orUndefined(),
+    email: new FormInput(form, 'email').orUndefined(),
+    'phone-email': new FormInput(form, 'phone-email').orUndefined(),
+    message: new FormInput(form, 'message').orUndefined(),
+    consent: new FormInput(form, 'consent').orUndefined(),
+  }
+  console.log({ fields })
+  form.addEventListener('submit', (event) => {
+    event.preventDefault()
 
-    const formData: { [k: string]: string } = {};
+    const formData: { [k: string]: string } = {}
     for (const [name, field] of Object.entries(fields)) {
-      formData[name] = field?.value ?? "";
+      formData[name] = field?.value ?? ''
     }
 
-    console.log({ formData });
+    console.log({ formData })
 
     ContactFormValidator.spa(formData).then(({ success, error, data }) => {
       if (!success) {
-        console.log(error.errors);
+        console.log(error.errors)
         for (let err of error.errors) {
           err.path.forEach((name) => {
-            const field = fields[name as keyof typeof fields];
-            field?.setError(err);
-          });
+            const field = fields[name as keyof typeof fields]
+            field?.setError(err)
+          })
         }
       } else {
         // sendMessage("ContactForm", data)
@@ -112,21 +112,21 @@ import Checkbox from "./shared/Checkbox.astro";
           .hello(data)
           .then(() => {
             triggerToast({
-              color: "success",
-              title: "Hurra 🎉",
+              color: 'success',
+              title: 'Hurra 🎉',
               message:
-                "Ditt meddelande hade skickats utan problem, vi hörs snart!",
-            });
+                'Ditt meddelande hade skickats utan problem, vi hörs snart!',
+            })
           })
           .catch(() => {
             triggerToast({
-              color: "error",
-              title: "Hoppsan ⁉️",
+              color: 'error',
+              title: 'Hoppsan ⁉️',
               message:
-                "Kunde inte skicka in formuläret, vänligen skicka ett mail istället!",
-            });
-          });
+                'Kunde inte skicka in formuläret, vänligen skicka ett mail istället!',
+            })
+          })
       }
-    });
-  });
+    })
+  })
 </script>

@@ -1,0 +1,69 @@
+---
+import Input from '../components/shared/Input.astro'
+import Layout from '../layouts/Layout.astro'
+---
+
+<Layout title="Kryptera">
+  <div class="container mx-auto px-6 md:px-0">
+    <div class="flex justify-between py-10">
+      <a href="/" class="link decoration-primary-600">Hem</a>
+    </div>
+    <h1 class="text-4xl font-semibold mb-8">Kryptera ditt meddelande</h1>
+    <div class="md:grid md:grid-cols-2 md:gap-8">
+      <div class="mb-8">
+        <p class="mb-4">
+          Vill du skicka känslig information, som lösenord eller andra
+          uppgifter? Eller värdesätter du bara extra sekretess?
+        </p>
+        <p>
+          Med detta formulär kan du kryptera en text innan du skickar den. Ingen
+          information lämnar denna sida – du ansvarar själv för att skicka den
+          krypterade texten till mig. Endast jag kan avkryptera meddelandet.
+        </p>
+      </div>
+      <div class="mb-8">
+        <form x-data="encryptor" @submit.prevent="!submitted ? encrypt : copy">
+          <!--
+            Thanks to Marcus Olsson for the idea and code example this is based on.
+            https://marcusolsson.me/artiklar/app-for-att-kryptera-meddelanden
+          -->
+          <Input
+            type="textarea"
+            rows="6"
+            class="mb-4"
+            @change="submitted = false"
+            x-model="message"
+          />
+          <div class="flex justify-between">
+            <div>
+              <button
+                x-show="message || submitted"
+                type="button"
+                @click="reset"
+                class="button button-small hover:bg-neutral-200 dark:hover:bg-slate-800"
+                x-transition.opacity
+              >
+                Återställ
+              </button>
+            </div>
+            <button
+              type="submit"
+              class="button button-small border-button-primary hover:button-primary"
+              x-text="submitted ? 'Kopiera' : 'Kryptera'"
+            >
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import Alpine from 'alpinejs'
+  import { encryptor } from '../stores/encryptor'
+
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('encryptor', encryptor)
+  })
+</script>

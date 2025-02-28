@@ -1,19 +1,19 @@
 ---
-import { Picture } from "astro:assets";
-import Writer from "./shared/Writer.astro";
-import Portrait from "../assets/portrait.jpg";
+import { Picture } from 'astro:assets'
+import Writer from './shared/Writer.astro'
+import Portrait from '../assets/portrait.jpg'
 ---
 
 <section class="business-hero min-h-screen flex items-center overflow-hidden">
   <div class="container mx-auto p-10 relative z-10">
     <h1 class="business-hero__heading font-normal text-4xl/normal mb-8">
       <b>Oscar Trollhag</b> | <Writer
-        prepend={["Frilanskonsult", "Fullstack-utvecklare"]}
+        prepend={['Frilanskonsult', 'Fullstack-utvecklare']}
         texts={[
-          "Problemlösare",
-          "Frontend-utvecklare",
-          "Backend-utvecklare",
-          "Kaffenörd",
+          'Problemlösare',
+          'Frontend-utvecklare',
+          'Backend-utvecklare',
+          'Kaffenörd',
         ]}
         randomize
       />
@@ -61,24 +61,24 @@ import Portrait from "../assets/portrait.jpg";
 </section>
 
 <script>
-  import gsap, { ScrollTrigger } from "gsap/all";
-  gsap.registerPlugin(ScrollTrigger);
+  import gsap, { ScrollTrigger } from 'gsap/all'
+  gsap.registerPlugin(ScrollTrigger)
   gsap.fromTo(
-    ".business-hero__image",
+    '.business-hero__image',
     {
-      "--animate-1-top": "170%",
-      "--animate-1-left": "-170%",
-      "--animate-2-bottom": "170%",
-      "--animate-2-left": "0%",
+      '--animate-1-top': '170%',
+      '--animate-1-left': '-170%',
+      '--animate-2-bottom': '170%',
+      '--animate-2-left': '0%',
     },
     {
       delay: 0.25,
       duration: 0.75,
-      scrollTrigger: ".business-hero",
-      "--animate-1-top": "0%",
-      "--animate-1-left": "0%",
-      "--animate-2-bottom": "0%",
-      "--animate-2-left": "-170%",
+      scrollTrigger: '.business-hero',
+      '--animate-1-top': '0%',
+      '--animate-1-left': '0%',
+      '--animate-2-bottom': '0%',
+      '--animate-2-left': '-170%',
     },
-  );
+  )
 </script>

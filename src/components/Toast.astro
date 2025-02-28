@@ -1,5 +1,5 @@
 ---
-import IconClose from "../assets/icons/close.svg";
+import IconClose from '../assets/icons/close.svg'
 ---
 
 <div
@@ -11,38 +11,38 @@ import IconClose from "../assets/icons/close.svg";
     <div
       :id="`toast-${id}`"
       x-show="toast.open"
-      class="px-4 py-2 mb-2 bg-slate-100 dark:bg-slate-900 shadow-lg rounded border-l-4 flex justify-center w-80"
-      :class="{ 'border-slate-900 dark:border-slate-100': toast.color === '', 'border-l-emerald-500': toast.color === 'success', 'border-l-red-600': toast.color === 'error' }"
+      class="mb-2 bg-slate-200 dark:bg-slate-800 shadow-lg rounded border-l-4 flex items-stretch max-w-80"
+      :class="{ 'border-l-slate-800 dark:border-l-slate-100': !['success', 'error'].includes(toast.color), 'border-l-emerald-500': toast.color === 'success', 'border-l-red-600': toast.color === 'error' }"
       x-transition.scale.0.origin.bottom.center.duration.150ms
       @mouseenter="stopDismiss(id)"
       @mouseleave="startDismiss(id)"
     >
-      <div>
-        <p
-          x-if="toast.title === undefined"
-          x-text="toast.title"
-          class="font-bold"
-        >
-        </p>
-        <span x-text="toast.message" class="text-sm"></span>
+      <div class="px-4 py-2 grow">
+        <template x-if="!!toast.title">
+          <p x-text="toast.title" class="font-bold"></p>
+        </template>
+        <template x-if="!!toast.message">
+          <span x-text="toast.message" class="text-sm"></span>
+        </template>
       </div>
-      <button
-        x-if="toast.dismissable"
-        type="button"
-        class="ml-4"
-        @click="dismiss(id)"
-      >
-        <IconClose />
-      </button>
+      <template x-if="toast.dismissable">
+        <button
+          type="button"
+          class="p-2 align-middle cursor-pointer"
+          @click="dismiss(id)"
+        >
+          <IconClose />
+        </button>
+      </template>
     </div>
   </template>
 </div>
 
 <script>
-  import Alpine from "alpinejs";
-  import { toasts } from "../stores/toasts";
+  import Alpine from 'alpinejs'
+  import { toasts } from '../stores/toasts'
 
-  document.addEventListener("alpine:init", () => {
-    Alpine.data("toasts", toasts);
-  });
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('toasts', toasts)
+  })
 </script>

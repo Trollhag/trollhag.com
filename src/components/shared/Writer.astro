@@ -1,8 +1,8 @@
 ---
 interface Props {
-  prepend?: string[];
-  texts: string[];
-  randomize?: boolean;
+  prepend?: string[]
+  texts: string[]
+  randomize?: boolean
 }
 ---
 
@@ -10,57 +10,57 @@ interface Props {
 ></astro-writer>
 
 <script>
-  import gsap from "gsap";
+  import gsap from 'gsap'
 
   interface Props {
-    prepend?: string[];
-    texts: string[];
-    randomize?: boolean;
+    prepend?: string[]
+    texts: string[]
+    randomize?: boolean
   }
 
   class AstroWriter extends HTMLElement {
-    _props: Props = { texts: [] };
-    _currentIndex = 0;
-    _texts: string[] = [];
+    _props: Props = { texts: [] }
+    _currentIndex = 0
+    _texts: string[] = []
 
     connectedCallback() {
-      this._props = JSON.parse(this.dataset.props ?? "{}");
-      this.setTexts();
-      this.loadText();
+      this._props = JSON.parse(this.dataset.props ?? '{}')
+      this.setTexts()
+      this.loadText()
     }
 
     get _currentText() {
-      return this._texts[this._currentIndex] ?? "";
+      return this._texts[this._currentIndex] ?? ''
     }
 
     setTexts() {
-      let texts = [...this._props.texts];
+      let texts = [...this._props.texts]
       if (this._props.randomize) {
         texts = texts
           .map((value) => ({ value, sort: Math.random() }))
           .sort((a, b) => a.sort - b.sort)
-          .map(({ value }) => value);
+          .map(({ value }) => value)
       }
-      this._texts = [...(this._props.prepend ?? []), ...texts];
+      this._texts = [...(this._props.prepend ?? []), ...texts]
     }
 
     next() {
       if (this._currentIndex === this._texts.length - 1) {
-        this._currentIndex = 0;
-        this.setTexts();
+        this._currentIndex = 0
+        this.setTexts()
       } else {
-        this._currentIndex++;
+        this._currentIndex++
       }
     }
 
     loadText() {
-      Array.from(this.children).forEach((child) => this.removeChild(child));
-      this._currentText.split("").forEach((char) => {
-        const child = document.createElement("span");
-        child.innerText = char;
-        this.appendChild(child);
-      });
-      this.animateText();
+      Array.from(this.children).forEach((child) => this.removeChild(child))
+      this._currentText.split('').forEach((char) => {
+        const child = document.createElement('span')
+        child.innerText = char
+        this.appendChild(child)
+      })
+      this.animateText()
     }
 
     animateText() {
@@ -68,8 +68,8 @@ interface Props {
         .fromTo(
           this.children,
           {
-            yPercent: "random([-50, 50])",
-            display: "inline-block",
+            yPercent: 'random([-50, 50])',
+            display: 'inline-block',
             opacity: 0,
           },
           {
@@ -77,22 +77,22 @@ interface Props {
             yPercent: 0,
             stagger: {
               each: 0.1,
-              from: "random",
-              ease: "power1.inOut",
+              from: 'random',
+              ease: 'power1.inOut',
             },
             onComplete: function () {
               setTimeout(() => {
-                this.reverse();
-              }, 4000);
+                this.reverse()
+              }, 4000)
             },
             onReverseComplete: () => {
-              this.next();
-              this.loadText();
+              this.next()
+              this.loadText()
             },
           },
         )
-        .play();
+        .play()
     }
   }
-  customElements.define("astro-writer", AstroWriter);
+  customElements.define('astro-writer', AstroWriter)
 </script>

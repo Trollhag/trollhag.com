@@ -1,5 +1,5 @@
 ---
-import ContactForm from "./ContactForm.astro";
+import ContactForm from './ContactForm.astro'
 ---
 
 <section id="contact" class="bg-primary-600 py-10">
@@ -48,17 +48,17 @@ import ContactForm from "./ContactForm.astro";
 </section>
 
 <script>
-  import gsap, { ScrollTrigger } from "gsap/all";
-  gsap.registerPlugin(ScrollTrigger);
-  gsap.from("#contact [data-animate]", {
+  import gsap, { ScrollTrigger } from 'gsap/all'
+  gsap.registerPlugin(ScrollTrigger)
+  gsap.from('#contact [data-animate]', {
     y: 60,
     opacity: 0,
     stagger: 0.25,
     scrollTrigger: {
-      trigger: "#contact [data-scroller]",
-      start: "top bottom",
-      end: "bottom bottom",
+      trigger: '#contact [data-scroller]',
+      start: 'top bottom',
+      end: 'bottom bottom',
       scrub: true,
     },
-  });
+  })
 </script>

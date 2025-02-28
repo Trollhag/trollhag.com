@@ -7,26 +7,26 @@ export interface Props {}
 </astro-pressable>
 
 <script>
-  import gsap from "gsap";
+  import gsap from 'gsap'
   class AstroPressable extends HTMLElement {
     connectedCallback() {
-      const el = this.querySelector<HTMLElement>(":first-child");
+      const el = this.querySelector<HTMLElement>(':first-child')
       if (!el) {
-        return;
+        return
       }
-      let x = "";
-      let y = "";
-      let s = 0;
-      const tl = gsap.timeline({ repeat: 0 });
-      el.addEventListener("mousemove", (e) => {
-        const rect = el.getBoundingClientRect();
-        x = `${((e.clientX - rect.left) / rect.width) * 100}%`;
-        y = `${((e.clientY - rect.top) / rect.height) * 100}%`;
-        s = Math.max(rect.width, rect.height);
-      });
-      el.addEventListener("mousedown", () => {
+      let x = ''
+      let y = ''
+      let s = 0
+      const tl = gsap.timeline({ repeat: 0 })
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect()
+        x = `${((e.clientX - rect.left) / rect.width) * 100}%`
+        y = `${((e.clientY - rect.top) / rect.height) * 100}%`
+        s = Math.max(rect.width, rect.height)
+      })
+      el.addEventListener('mousedown', () => {
         tl.from(el, {
-          backgroundImage: "",
+          backgroundImage: '',
         })
           .to(el, {
             duration: 0.1,
@@ -37,15 +37,15 @@ export interface Props {}
             duration: 1,
             backgroundImage: `radial-gradient(circle at ${x} ${y}, rgba(0, 0, 0, 0.3) 0px, rgba(0, 0, 0, 0.3) ${s}px, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0) 100%)`,
           })
-          .play();
+          .play()
         // el.style.backgroundImage = ;
-      });
-      el.addEventListener("mouseup", () => {
-        tl.reverse();
-      });
+      })
+      el.addEventListener('mouseup', () => {
+        tl.reverse()
+      })
     }
   }
-  customElements.define("astro-pressable", AstroPressable);
+  customElements.define('astro-pressable', AstroPressable)
 </script>
 
 <style>

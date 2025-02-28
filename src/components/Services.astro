@@ -115,30 +115,30 @@
   </div>
 
   <script>
-    import gsap, { ScrollTrigger } from "gsap/all";
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.from("#services [data-animate='1']", {
+    import gsap, { ScrollTrigger } from 'gsap/all'
+    gsap.registerPlugin(ScrollTrigger)
+    gsap.from('#services [data-animate="1"]', {
       y: 60,
       opacity: 0,
       stagger: 0.25,
       scrollTrigger: {
-        trigger: "#services",
-        start: "start bottom",
-        end: "bottom bottom",
+        trigger: '#services',
+        start: 'start bottom',
+        end: 'bottom bottom',
         scrub: true,
       },
-    });
-    gsap.from("#services [data-animate='2']", {
+    })
+    gsap.from('#services [data-animate="2"]', {
       y: 100,
       opacity: 0,
       stagger: 0.25,
       scrollTrigger: {
-        trigger: "#services",
-        start: () => "start bottom",
-        end: "bottom bottom",
+        trigger: '#services',
+        start: () => 'start bottom',
+        end: 'bottom bottom',
         scrub: true,
       },
-    });
+    })
   </script>
 
   <style>

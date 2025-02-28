@@ -1,53 +1,53 @@
 ---
-import type { HTMLAttributes } from "astro/types";
+import type { HTMLAttributes } from 'astro/types'
 
 const style = {
   palette: {
-    primary: "primary-600",
-    light: "neutral-50",
+    primary: 'primary-600',
+    light: 'neutral-50',
   },
   size: {
-    small: "py-2 px-5",
-    medium: "py-3 px-8",
-    large: "py-6 px-12",
+    small: 'py-2 px-5',
+    medium: 'py-3 px-8',
+    large: 'py-6 px-12',
   },
   rounded: {
-    unset: "",
-    small: "rounded-sm",
-    medium: "rounded",
-    large: "rounded-lg",
-    full: "rounded-full",
+    unset: '',
+    small: 'rounded-sm',
+    medium: 'rounded',
+    large: 'rounded-lg',
+    full: 'rounded-full',
   },
-};
+}
 
 interface CustomProps {
-  type?: HTMLAttributes<"input">["type"] | "textarea";
-  label?: string;
-  color?: keyof typeof style.palette;
-  size?: keyof typeof style.size;
-  rounded?: keyof typeof style.rounded;
+  type?: HTMLAttributes<'input'>['type'] | 'textarea'
+  label?: string
+  color?: keyof typeof style.palette
+  size?: keyof typeof style.size
+  rounded?: keyof typeof style.rounded
 }
 
 type Props = CustomProps &
   (
-    | Omit<HTMLAttributes<"input">, "size" | "type">
-    | Omit<HTMLAttributes<"textarea">, "size">
-  );
+    | Omit<HTMLAttributes<'input'>, 'size' | 'type'>
+    | Omit<HTMLAttributes<'textarea'>, 'size'>
+  )
 
 const {
   id = Math.random().toString(36).slice(2, 7),
   type,
   name,
   label,
-  color = "primary",
-  size = "medium",
-  rounded = "small",
+  color = 'primary',
+  size = 'medium',
+  rounded = 'small',
   class: _class,
-  "class:list": classList,
+  'class:list': classList,
   ...props
-} = Astro.props;
+} = Astro.props
 
-const $color = style.palette[color];
+const $color = style.palette[color]
 ---
 
 <fieldset c-input={name} class:list={[_class, classList]}>
@@ -56,14 +56,14 @@ const $color = style.palette[color];
       <label
         c-input-label
         for={id}
-        class:list={["block w-full font-bold px-3 mb-1", `text-${$color}`]}
+        class:list={['block w-full font-bold px-3 mb-1', `text-${$color}`]}
       >
         {label}
       </label>
     )
   }
   {
-    type !== "textarea" ? (
+    type !== 'textarea' ? (
       <input
         id={id}
         type={type}

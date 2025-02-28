@@ -1,7 +1,7 @@
 ---
-import { Picture } from "astro:assets";
-import SicaLight from "../assets/case/sicalight.webp";
-import TamroPlay from "../assets/case/tamroplay.webp";
+import { Picture } from 'astro:assets'
+import SicaLight from '../assets/case/sicalight.webp'
+import TamroPlay from '../assets/case/tamroplay.webp'
 ---
 
 <section id="projects" class="py-14">
@@ -70,17 +70,17 @@ import TamroPlay from "../assets/case/tamroplay.webp";
 </section>
 
 <script>
-  import gsap, { ScrollTrigger } from "gsap/all";
-  gsap.registerPlugin(ScrollTrigger);
-  gsap.from("#projects [data-animate]", {
+  import gsap, { ScrollTrigger } from 'gsap/all'
+  gsap.registerPlugin(ScrollTrigger)
+  gsap.from('#projects [data-animate]', {
     y: 60,
     opacity: 0,
     stagger: 0.25,
     scrollTrigger: {
-      trigger: "#projects [data-scroller]",
-      start: "top bottom",
-      end: "bottom bottom",
+      trigger: '#projects [data-scroller]',
+      start: 'top bottom',
+      end: 'bottom bottom',
       scrub: true,
     },
-  });
+  })
 </script>
