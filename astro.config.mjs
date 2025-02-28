@@ -8,10 +8,10 @@ import { defineConfig } from 'astro/config'
 export default defineConfig({
   output: 'static',
   site: 'https://trollhag.com',
-  i18n: {
-    locales: ['sv', 'en'],
-    defaultLocale: 'sv',
-  },
+  // i18n: {
+  //   locales: ['sv', 'en'],
+  //   defaultLocale: 'sv',
+  // },
   integrations: [sitemap(), alpinejs()],
   vite: {
     plugins: [tailwindcss()],
