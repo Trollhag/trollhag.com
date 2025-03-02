@@ -40,7 +40,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          PUBLIC_KEYBASE_PUBLIC_PGP_KEY_URL: ${{ env.KEYBASE_PUBLIC_PGP_KEY_URL }}
+          PUBLIC_KEYBASE_PUBLIC_PGP_KEY_URL: ${{ vars.KEYBASE_PUBLIC_PGP_KEY_URL }}
         
       - name: Setup Pages
         uses: actions/configure-pages@v5
