@@ -20,11 +20,14 @@ export default {
     }
   },
   async fetchPGPKey() {
+    if (!import.meta.env.PUBLIC_KEYBASE_PUBLIC_PGP_KEY_URL) {
+      throw new Error('Missing PUBLIC_KEYBASE_PUBLIC_PGP_KEY_URL in env')
+    }
     const result = await fetch(
       import.meta.env.PUBLIC_KEYBASE_PUBLIC_PGP_KEY_URL,
     )
     if (Math.floor(result.status / 100) > 2) {
-      throw new Error()
+      throw new Error('Fetch public key status not 2XX')
     }
     return result.text()
   },
